@@ -1,0 +1,21 @@
+[Unit]
+Description=wallabag uwsgi service
+Requires=wallabag.socket
+After=wallabag.socket
+
+[Service]
+Type=notify
+DynamicUser=yes
+User=wallabag
+
+BindReadOnlyPaths=/etc/ssl/certs/
+TemporaryFileSystem=/var/lib
+StateDirectory=wallabag
+EnvironmentFile=/etc/default/wallabag.conf
+
+ExecStart=@uwsgi@/bin/uwsgi --ini @uwsgiConfig@
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Also=wallabag.socket

@@ -1,0 +1,9 @@
+[Unit]
+Description=wallabag socket
+
+[Socket]
+ListenStream=/run/wallabag.sock
+SocketMode=0666
+
+[Install]
+WantedBy=sockets.target
