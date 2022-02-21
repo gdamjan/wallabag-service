@@ -14,7 +14,7 @@ let
     systemdSupport = false;
     apxs2Support = false;
   }).withExtensions ({ all, ... }: with all;
-    [ pdo pdo_pgsql pcntl posix filter mbstring fileinfo iconv intl dom curl gd opcache session ]);
+    [ pdo pdo_pgsql session ctype dom simplexml gd mbstring xml tidy iconv curl gettext tokenizer bcmath intl opcache ]);
 
   uwsgi = pkgs.uwsgi.override {
     withPAM = false;
