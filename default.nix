@@ -41,7 +41,7 @@ in
 
 pkgs.portableService {
   name = "wallabag";
-  version = "2.4.3";
+  version = wallabag.version;
   description = "Portable wallabag with uwsgi-php";
   homepage = "https://github.com/gdamjan/wallabag-service/";
 
