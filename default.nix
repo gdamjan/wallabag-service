@@ -47,9 +47,8 @@ let
         ln -s ${php}/bin/php $out/usr/bin/php
         ln -s ${pkgs.bash}/bin/bash $out/usr/bin/sh
         ln -s $out/usr/bin/ $out/bin
+        ln -s {pkgs.cacert}/etc/ssl $out/etc/ssl
 
-        # create the mount-point for the cert store
-        mkdir -p $out/etc/ssl/certs
 
         # setup systemd units
         substituteAll ${./files/wallabag.service.in} $out/etc/systemd/system/wallabag.service
