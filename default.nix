@@ -1,7 +1,6 @@
 { pkgs ? import <nixpkgs> {}, withSystemd ? true }:
 
 let
-  squash-compression = "xz -Xdict-size 100%";
   uwsgiLogger = if withSystemd then "systemd" else "stdio";
 
   wallabag = pkgs.wallabag;
@@ -32,49 +31,25 @@ let
     inherit wallabag php uwsgiLogger;
   };
 
-  rootfs = pkgs.stdenv.mkDerivation {
-    name = "rootfs";
-    inherit uwsgi php wallabag uwsgiConfig;
-    coreutils = pkgs.coreutils;
-    buildCommand = ''
-        # prepare the portable service file-system layout
-        mkdir -p $out/etc/systemd/system $out/proc $out/sys $out/dev $out/run $out/tmp $out/var/tmp $out/var/lib
-        touch $out/etc/resolv.conf $out/etc/machine-id
-        cp ${./files/os-release} $out/etc/os-release
-
-        # global /usr/bin/php and bash symlinks for the update daemon
-        mkdir -p $out/usr/bin
-        ln -s ${php}/bin/php $out/usr/bin/php
-        ln -s ${pkgs.bash}/bin/bash $out/usr/bin/sh
-        ln -s $out/usr/bin/ $out/bin
-        ln -s {pkgs.cacert}/etc/ssl $out/etc/ssl
-
-
-        # setup systemd units
-        substituteAll ${./files/wallabag.service.in} $out/etc/systemd/system/wallabag.service
-        cp ${./files/wallabag.socket} $out/etc/systemd/system/wallabag.socket
-    '';
+  wallabag-service = pkgs.substituteAll {
+    name = "wallabag.service";
+    src = ./files/wallabag.service.in;
+    inherit uwsgi uwsgiConfig;
   };
 
 in
 
-pkgs.stdenv.mkDerivation {
-  name = "wallabag.raw";
-  nativeBuildInputs = [ pkgs.squashfsTools ];
+pkgs.portableService {
+  name = "wallabag";
+  version = "2.4.3";
+  description = "Portable wallabag with uwsgi-php";
+  homepage = "https://github.com/gdamjan/wallabag-service/";
 
-  buildCommand = ''
-      closureInfo=${pkgs.closureInfo { rootPaths = [ rootfs ]; }}
+  units = [ wallabag-service ./files/wallabag.socket ];
 
-      mkdir -p nix/store
-      for i in $(< $closureInfo/store-paths); do
-        cp -a "$i" "''${i:1}"
-      done
-
-      # archive the nix store
-      mksquashfs nix ${rootfs}/* $out \
-        -noappend \
-        -keep-as-directory \
-        -all-root -root-mode 755 \
-        -b 1048576 -comp ${squash-compression}
-  '';
+  symlinks = [
+    { object = "${pkgs.cacert}/etc/ssl"; symlink = "/etc/ssl"; }
+    { object = "${pkgs.bash}/bin/bash"; symlink = "/bin/sh"; }
+    { object = "${php}/bin/php"; symlink = "/bin/php"; }
+  ];
 }

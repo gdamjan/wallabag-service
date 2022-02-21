@@ -1,6 +1,0 @@
-PORTABLE_PRETTY_NAME="Portable wallabag with uwsgi-php"
-PORTABLE_ID=wallabag
-PRETTY_NAME=NixOS
-ID=nixos
-BUILD_ID=rolling
-HOME_URL=https://github.com/gdamjan/wallabag-service/
