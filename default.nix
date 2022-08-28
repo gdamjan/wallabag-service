@@ -19,7 +19,7 @@ let
     withSystemd = withSystemd;
     systemd = pkgs.systemdMinimal;
     plugins = ["php"];
-    php = php;
+    inherit php;
   };
 
   uwsgiConfig = pkgs.substituteAll {
@@ -27,7 +27,7 @@ let
     src = ./files/uwsgi.wallabag.ini.in;
     mimeTypes = "${pkgs.mime-types}/etc/mime.types";
     uwsgiLogger = if withSystemd then "systemd" else "stdio";
-    inherit wallabag php;
+    inherit php wallabag;
   };
 
   wallabag-service = pkgs.substituteAll {
@@ -42,7 +42,7 @@ in
 pkgs.portableService {
   pname = "wallabag";
   version = wallabag.version;
-  description = ''A "Portable Service" for wallabag with uwsgi built with nix'';
+  description = ''Portable wallabag service run by uwsgi-php and built with Nix'';
   homepage = "https://github.com/gdamjan/wallabag-service/";
 
   units = [ wallabag-service wallabag-socket ];
