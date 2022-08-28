@@ -1,5 +1,4 @@
 [![CI](https://github.com/gdamjan/wallabag-service/actions/workflows/ci.yml/badge.svg)](https://github.com/gdamjan/wallabag-service/actions/workflows/ci.yml)
-[![Release](https://github.com/gdamjan/wallabag-service/actions/workflows/release.yml/badge.svg)](https://github.com/gdamjan/wallabag-service/actions/workflows/release.yml)
 
 # `wallabag` as a systemd portable service
 

@@ -27,25 +27,26 @@ let
   uwsgiConfig = pkgs.substituteAll {
     name = "uwsgi.wallabag.ini";
     src = ./files/uwsgi.wallabag.ini.in;
-    mimeTypes = pkgs.mime-types + "/etc/mime.types";
+    mimeTypes = "${pkgs.mime-types}/etc/mime.types";
     inherit wallabag php uwsgiLogger;
   };
 
   wallabag-service = pkgs.substituteAll {
     name = "wallabag.service";
     src = ./files/wallabag.service.in;
-    inherit uwsgi uwsgiConfig;
+    execStart = "${uwsgi}/bin/uwsgi --ini ${uwsgiConfig}";
   };
+  wallabag-socket = pkgs.concatText "wallabag.socket" [ ./files/wallabag.socket ];
 
 in
 
 pkgs.portableService {
-  name = "wallabag";
+  pname = "wallabag";
   version = wallabag.version;
-  description = "Portable wallabag with uwsgi-php";
+  description = ''A "Portable Service" for wallabag with uwsgi built with nix'';
   homepage = "https://github.com/gdamjan/wallabag-service/";
 
-  units = [ wallabag-service ./files/wallabag.socket ];
+  units = [ wallabag-service wallabag-socket ];
 
   symlinks = [
     { object = "${pkgs.cacert}/etc/ssl"; symlink = "/etc/ssl"; }

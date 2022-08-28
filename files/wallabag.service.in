@@ -13,7 +13,7 @@ TemporaryFileSystem=/var/lib
 StateDirectory=wallabag
 EnvironmentFile=/etc/default/wallabag.conf
 
-ExecStart=@uwsgi@/bin/uwsgi --ini @uwsgiConfig@
+ExecStart=@execStart@
 Restart=always
 
 [Install]
