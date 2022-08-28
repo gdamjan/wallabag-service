@@ -46,9 +46,6 @@ to provide an nginx running on the "host", and a database running either on the 
 I choose to use nginx on the "host" so that it can be shared with other services, and it makes
 integration with LetsEncrypt/certbot easier. I personally also use a remote database server.
 
-The portable service will mount `/etc/ssl/certs` from the "host" in the service, so that trusted ca certificates
-are not hard-coded in the image, and can be updated as part of the "host" OS life-cycle.
-
 ## Nginx configuration
 
 The portable service will operate on the `/run/wallabag.sock` uwsgi socket. We gonna let the host nginx handle

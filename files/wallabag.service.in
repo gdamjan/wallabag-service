@@ -8,7 +8,6 @@ Type=notify
 DynamicUser=yes
 User=wallabag
 
-BindReadOnlyPaths=/etc/ssl/certs/
 TemporaryFileSystem=/var/lib
 StateDirectory=wallabag
 EnvironmentFile=/etc/default/wallabag.conf
