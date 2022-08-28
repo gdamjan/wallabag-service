@@ -1,8 +1,6 @@
 { pkgs ? import <nixpkgs> {}, withSystemd ? true }:
 
 let
-  uwsgiLogger = if withSystemd then "systemd" else "stdio";
-
   wallabag = pkgs.wallabag;
 
   php = (pkgs.php.override {
@@ -28,7 +26,8 @@ let
     name = "uwsgi.wallabag.ini";
     src = ./files/uwsgi.wallabag.ini.in;
     mimeTypes = "${pkgs.mime-types}/etc/mime.types";
-    inherit wallabag php uwsgiLogger;
+    uwsgiLogger = if withSystemd then "systemd" else "stdio";
+    inherit wallabag php;
   };
 
   wallabag-service = pkgs.substituteAll {
