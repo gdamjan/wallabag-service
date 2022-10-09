@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> {}, withSystemd ? true }:
 
 let
+
   wallabag = pkgs.wallabag;
 
   php = (pkgs.php.override {
@@ -16,10 +17,9 @@ let
 
   uwsgi = pkgs.uwsgi.override {
     withPAM = false;
-    withSystemd = withSystemd;
     systemd = pkgs.systemdMinimal;
     plugins = ["php"];
-    inherit php;
+    inherit php withSystemd;
   };
 
   uwsgiConfig = pkgs.substituteAll {
