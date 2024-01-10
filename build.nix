@@ -19,7 +19,6 @@ let
       simplexml
       gd
       mbstring
-      xml
       tidy
       iconv
       curl
