@@ -1,0 +1,14 @@
+[Unit]
+Description=wallabag initialization
+ConditionPathExists=!/var/lib/wallabag/app/config/
+
+[Service]
+Type=oneshot
+DynamicUser=yes
+User=wallabag
+
+TemporaryFileSystem=/var/lib
+StateDirectory=wallabag
+
+ExecStart=@coreutils@/bin/mkdir -p /var/lib/wallabag/app/config/
+ExecStart=@coreutils@/bin/cp -r @wallabag@/app/config/. /var/lib/wallabag/app/config/

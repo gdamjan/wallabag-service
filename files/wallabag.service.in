@@ -1,6 +1,6 @@
 [Unit]
 Description=wallabag uwsgi service
-Requires=wallabag.socket
+Requires=wallabag.socket wallabag-first-run.service
 After=wallabag.socket
 
 [Service]

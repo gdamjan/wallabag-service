@@ -53,6 +53,12 @@ let
   };
   wallabag-socket =
     pkgs.concatText "wallabag.socket" [ ./files/wallabag.socket ];
+  wallabag-first-run-service = pkgs.substituteAll {
+    name = "wallabag-first-run.service";
+    src = ./files/wallabag-first-run.service.in;
+    inherit wallabag;
+    inherit (pkgs) coreutils;
+  };
 
 in pkgs.portableService {
   pname = "wallabag";
@@ -60,7 +66,7 @@ in pkgs.portableService {
   description = "Portable wallabag service run by uwsgi-php and built with Nix";
   homepage = "https://github.com/gdamjan/wallabag-service/";
 
-  units = [ wallabag-service wallabag-socket ];
+  units = [ wallabag-service wallabag-socket wallabag-first-run-service ];
 
   symlinks = [
     {
