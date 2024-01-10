@@ -1,6 +1,6 @@
 [Unit]
 Description=wallabag initialization
-ConditionPathExists=!/var/lib/wallabag/app/config/
+ConditionPathExists=!/var/lib/wallabag/app/
 
 [Service]
 Type=oneshot
@@ -10,5 +10,5 @@ User=wallabag
 TemporaryFileSystem=/var/lib
 StateDirectory=wallabag
 
-ExecStart=@coreutils@/bin/mkdir -p /var/lib/wallabag/app/config/
-ExecStart=@coreutils@/bin/cp -r @wallabag@/app/config/. /var/lib/wallabag/app/config/
+ExecStart=@coreutils@/bin/mkdir -p /var/lib/wallabag/app/
+ExecStart=@coreutils@/bin/cp -r @wallabag@/app/. /var/lib/wallabag/app/
