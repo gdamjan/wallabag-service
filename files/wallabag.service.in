@@ -10,6 +10,7 @@ User=wallabag
 
 TemporaryFileSystem=/var/lib
 StateDirectory=wallabag
+Environment=WALLABAG_DATA=/var/lib/wallabag
 EnvironmentFile=/etc/default/wallabag.conf
 
 ExecStart=@execStart@
